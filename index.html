@@ -1,0 +1,157 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Barbara &amp; Dante</title>
+  <meta name="description" content="Barbara y Dante se casan. Toda la información de la boda.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=EB+Garamond:ital,wght@0,400;0,500;1,400&family=Mrs+Saint+Delafield&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+  <filter id="wobbly1" x="-20%" y="-20%" width="140%" height="140%">
+    <feTurbulence type="fractalNoise" baseFrequency="0.012 0.05" numOctaves="2" seed="7" result="noise"></feTurbulence>
+    <feDisplacementMap in="SourceGraphic" in2="noise" scale="7" xChannelSelector="R" yChannelSelector="G"></feDisplacementMap>
+  </filter>
+  <filter id="wobbly2" x="-20%" y="-20%" width="140%" height="140%">
+    <feTurbulence type="fractalNoise" baseFrequency="0.016 0.07" numOctaves="2" seed="3" result="noise"></feTurbulence>
+    <feDisplacementMap in="SourceGraphic" in2="noise" scale="5" xChannelSelector="R" yChannelSelector="G"></feDisplacementMap>
+  </filter>
+</svg>
+
+<header class="site-header" id="top">
+  <a class="brand" href="#top">Barbara &amp; Dante</a>
+  <button class="menu-toggle" aria-expanded="false" aria-controls="menu" aria-label="Abrir menú">
+    <span></span><span></span><span></span>
+  </button>
+  <nav id="menu" class="site-nav" aria-label="Secciones">
+    <a href="#bienvenidos">Bienvenidos</a>
+    <a href="#historia">Nuestra Historia</a>
+    <a href="#viaje">Viaje</a>
+    <a href="#alojarse">Dónde alojarse</a>
+    <a href="#programa">Programa</a>
+    <a href="#preguntas">Preguntas y respuestas</a>
+    <a href="#regalos">Regalos</a>
+  </nav>
+</header>
+
+<section class="hero" id="bienvenidos">
+  <img class="accent accent-left" src="img/ornaments2/starryvines.svg" alt="" aria-hidden="true">
+  <div class="hero-inner">
+    <h1>Barbara <span class="amp">&amp;</span> Dante</h1>
+    <p class="hero-tagline">¡Nos casamos!</p>
+    <p class="hero-date" data-wedding-date>Fecha por confirmar</p>
+    <p class="hero-place">Lugar por confirmar</p>
+    <div class="photo-frame">
+      <img class="hero-photo" src="img/hero.jpg" alt="Barbara y Dante">
+    </div>
+    <div class="countdown" data-countdown data-date="" hidden>
+      <div><span data-days>--</span><small>días</small></div>
+      <div><span data-hours>--</span><small>horas</small></div>
+      <div><span data-minutes>--</span><small>minutos</small></div>
+    </div>
+  </div>
+</section>
+
+<div class="divider" aria-hidden="true"></div>
+
+<section class="frame" id="historia-intro">
+  <div class="card">
+    <h2>Bienvenidos</h2>
+    <p>Gracias por acompañarnos en este día tan especial. Esta página reúne todo lo que necesitan saber para celebrarlo con nosotros.</p>
+  </div>
+</section>
+
+<div class="divider" aria-hidden="true"></div>
+
+<section class="frame" id="historia">
+  <div class="card">
+    <h2>Nuestra Historia</h2>
+    <p>Escribí aquí cómo se conocieron, cómo empezó todo y qué los trajo hasta este día.</p>
+
+  <div class="gallery" role="list">
+    <button role="listitem" data-index="0"><img src="img/gallery/07.jpg" alt="Barbara y Dante" loading="lazy"></button>
+    <button role="listitem" data-index="1"><img src="img/gallery/12.jpg" alt="Barbara y Dante" loading="lazy"></button>
+    <button role="listitem" data-index="2"><img src="img/gallery/18.jpg" alt="Barbara y Dante" loading="lazy"></button>
+  </div>
+  </div>
+</section>
+
+<div class="divider" aria-hidden="true"></div>
+
+<section class="frame" id="viaje">
+  <div class="card">
+    <h2>Viaje</h2>
+    <p>Información sobre cómo llegar al lugar de la celebración: dirección, transporte y estacionamiento.</p>
+  </div>
+</section>
+
+<div class="divider" aria-hidden="true"></div>
+
+<section class="frame" id="alojarse">
+  <div class="card">
+    <h2>Dónde alojarse</h2>
+    <p>Hoteles y alojamientos recomendados cerca del lugar de la boda.</p>
+  </div>
+</section>
+
+<div class="divider" aria-hidden="true"></div>
+
+<section class="frame" id="programa">
+  <div class="card">
+    <h2>Programa</h2>
+    <ol class="schedule">
+      <li><time>00:00</time><div><strong>Ceremonia</strong><span>Lugar por confirmar</span></div></li>
+      <li><time>00:00</time><div><strong>Cóctel</strong><span>Lugar por confirmar</span></div></li>
+      <li><time>00:00</time><div><strong>Cena y fiesta</strong><span>Lugar por confirmar</span></div></li>
+    </ol>
+  </div>
+</section>
+
+<div class="divider" aria-hidden="true"></div>
+
+<section class="frame" id="preguntas">
+  <div class="card">
+    <h2>Preguntas y respuestas</h2>
+    <details>
+      <summary>¿Puedo llevar acompañante?</summary>
+      <p>Respondan con su confirmación para que podamos organizarlo.</p>
+    </details>
+    <details>
+      <summary>¿Hay algún código de vestimenta?</summary>
+      <p>Pueden venir como se sientan cómodos y acordes a la ocasión.</p>
+    </details>
+    <details>
+      <summary>¿Hasta cuándo puedo confirmar mi asistencia?</summary>
+      <p>Por favor confirmen antes de la fecha límite indicada en su invitación.</p>
+    </details>
+  </div>
+</section>
+
+<div class="divider" aria-hidden="true"></div>
+
+<section class="frame" id="regalos">
+  <div class="card">
+    <h2>Regalos</h2>
+    <p>Su presencia es el mejor regalo. Si desean tener un detalle, aquí podrán encontrar las opciones.</p>
+  </div>
+</section>
+
+<div class="divider" aria-hidden="true"></div>
+
+<footer class="site-footer">
+  <p>Barbara &amp; Dante</p>
+</footer>
+
+<dialog class="lightbox" aria-label="Foto">
+  <button class="lightbox-close" aria-label="Cerrar">&times;</button>
+  <img alt="">
+</dialog>
+
+<script src="script.js"></script>
+</body>
+</html>
