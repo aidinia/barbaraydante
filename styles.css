@@ -8,7 +8,8 @@
   --ink: #2c3327;
   --serif: "Cormorant Garamond", "EB Garamond", Georgia, serif;
   --body: "EB Garamond", "Cormorant Garamond", Georgia, serif;
-  --script: "Mrs Saint Delafield", "Cormorant Garamond", cursive;
+  --script: "Great Vibes", "Cormorant Garamond", cursive;
+  --grain: url("data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22320%22 height=%22320%22%3E%3Cfilter id=%22p%22%3E%3CfeTurbulence type=%22fractalNoise%22 baseFrequency=%220.012%22 numOctaves=%223%22 seed=%227%22 stitchTiles=%22stitch%22 result=%22n%22/%3E%3CfeDiffuseLighting in=%22n%22 surfaceScale=%221.4%22 diffuseConstant=%221%22 lighting-color=%22%23fff%22 result=%22l%22%3E%3CfeDistantLight azimuth=%2255%22 elevation=%2250%22/%3E%3C/feDiffuseLighting%3E%3C/filter%3E%3Crect width=%22100%25%22 height=%22100%25%22 filter=%22url(%23p)%22/%3E%3C/svg%3E");
 }
 
 * { box-sizing: border-box; }
@@ -22,8 +23,9 @@ body {
   font-size: 1.15rem;
   color: var(--ink);
   background-color: var(--paper);
-  background-image: url("data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22180%22 height=%22180%22%3E%3Cfilter id=%22n%22%3E%3CfeTurbulence type=%22fractalNoise%22 baseFrequency=%220.85%22 numOctaves=%222%22 stitchTiles=%22stitch%22/%3E%3CfeColorMatrix type=%22matrix%22 values=%220 0 0 0 0.18 0 0 0 0 0.15 0 0 0 0 0.09 0 0 0 0.05 0%22/%3E%3C/filter%3E%3Crect width=%22100%25%22 height=%22100%25%22 filter=%22url(%23n)%22/%3E%3C/svg%3E");
-  background-size: 180px 180px;
+  background-image: var(--grain);
+  background-blend-mode: multiply;
+  background-size: 320px 320px;
   background-repeat: repeat;
   line-height: 1.7;
 }
@@ -124,7 +126,11 @@ h1, h2 {
   padding: 6rem 1.25rem;
   text-align: center;
   color: var(--forest);
-  background: var(--cream);
+  background-color: var(--cream);
+  background-image: var(--grain);
+  background-blend-mode: multiply;
+  background-size: 320px 320px;
+  background-repeat: repeat;
   overflow: hidden;
 }
 
@@ -136,7 +142,7 @@ h1, h2 {
   left: 0;
   width: min(48%, 480px);
   aspect-ratio: 650 / 596;
-  background: url("img/ornaments2/moon-wash.svg") center / contain no-repeat;
+  background: url("img/ornaments/moon-wash.svg") center / contain no-repeat;
   opacity: 0.6;
   filter: saturate(0.6) sepia(5%);
   -webkit-mask-image: radial-gradient(circle at 50% 48%, black 0%, black 55%, transparent 92%);
@@ -224,9 +230,14 @@ h1, h2 {
 .photo-frame {
   position: relative;
   width: min(1000px, 90vw);
+  min-height: 420px;
   margin: 2.5rem auto 0;
   padding: 2.4rem;
-  background: var(--paper);
+  background-color: var(--paper);
+  background-image: var(--grain);
+  background-blend-mode: multiply;
+  background-size: 320px 320px;
+  background-repeat: repeat;
   box-shadow: 0 14px 34px rgba(47, 74, 42, 0.25);
 }
 
@@ -292,7 +303,11 @@ h1, h2 {
 .frame {
   position: relative;
   padding: 3.5rem 1.25rem;
-  background: var(--paper);
+  background-color: var(--paper);
+  background-image: var(--grain);
+  background-blend-mode: multiply;
+  background-size: 320px 320px;
+  background-repeat: repeat;
 }
 
 .frame::before,
@@ -343,6 +358,10 @@ h1, h2 {
   padding: 2.6rem 2.2rem;
   text-align: center;
   background-color: var(--cream);
+  background-image: var(--grain);
+  background-blend-mode: multiply;
+  background-size: 320px 320px;
+  background-repeat: repeat;
 }
 
 /* Each card shows the painted corners only on the side opposite its
@@ -555,17 +574,22 @@ details p { margin: 0 0 1.2rem; color: var(--ink); }
   width: 100%;
   aspect-ratio: 909.75 / 96.75;
   background-color: var(--cream);
-  background-image: url("img/ornaments2/Dunes.svg");
-  background-position: center;
-  background-repeat: no-repeat;
-  background-size: 100% 100%;
+  background-image: var(--grain), url("img/ornaments2/Dunes.svg");
+  background-blend-mode: multiply, normal;
+  background-position: center, center;
+  background-repeat: repeat, no-repeat;
+  background-size: 320px 320px, 100% 100%;
 }
 
 /* Footer */
 .site-footer {
   padding: 3rem 1.25rem;
   text-align: center;
-  background: var(--cream);
+  background-color: var(--cream);
+  background-image: var(--grain);
+  background-blend-mode: multiply;
+  background-size: 320px 320px;
+  background-repeat: repeat;
   color: var(--ink);
   border-top: 1px solid rgba(47, 74, 42, 0.12);
 }
@@ -607,6 +631,168 @@ details p { margin: 0 0 1.2rem; color: var(--ink); }
   text-shadow: 0 1px 4px rgba(0, 0, 0, 0.6);
 }
 
+/* Entry puzzle */
+.puzzle-gate {
+  position: fixed;
+  inset: 0;
+  margin: auto;
+  max-width: 740px;
+  width: 94vw;
+  max-height: 90vh;
+  overflow-y: auto;
+  padding: 0;
+  border: none;
+  border-radius: 4px;
+  background-color: var(--cream);
+  background-image: var(--grain);
+  background-blend-mode: multiply;
+  background-size: 320px 320px;
+  background-repeat: repeat;
+  box-shadow: 0 24px 60px rgba(44, 51, 39, 0.35);
+}
+
+.puzzle-gate::backdrop {
+  background: rgba(44, 51, 39, 0.55);
+  backdrop-filter: blur(4px);
+}
+
+.puzzle-card {
+  padding: 3.2rem 2.6rem;
+  text-align: center;
+}
+
+.puzzle-eyebrow {
+  margin: 0 0 0.3rem;
+  text-transform: uppercase;
+  letter-spacing: 0.25em;
+  font-size: 0.75rem;
+  color: var(--bark);
+}
+
+.puzzle-title {
+  margin: 0 0 0.4rem;
+  font-family: var(--script);
+  font-weight: 400;
+  color: var(--forest);
+  font-size: clamp(2.2rem, 7vw, 2.8rem);
+}
+
+.puzzle-hint {
+  margin: 0 0 1.2rem;
+  font-size: 0.92rem;
+  color: var(--ink);
+  opacity: 0.85;
+}
+
+.puzzle-gate.puzzle-shake { animation: puzzle-shake 0.4s; }
+
+@keyframes puzzle-shake {
+  0%, 100% { transform: translateX(0); }
+  25% { transform: translateX(-6px); }
+  75% { transform: translateX(6px); }
+}
+
+/* Scramble zone: words scattered at random positions; drag them around
+   this same space and arrange them left-to-right to spell the sentence. */
+.puzzle-scramble {
+  position: relative;
+  height: 380px;
+  margin-bottom: 0.8rem;
+  border: 1.5px dashed rgba(47, 74, 42, 0.15);
+  border-radius: 6px;
+  /* two faint guide lines hinting at the 3-row layout, without per-word boxes */
+  background-image:
+    linear-gradient(rgba(47, 74, 42, 0.15), rgba(47, 74, 42, 0.15)),
+    linear-gradient(rgba(47, 74, 42, 0.15), rgba(47, 74, 42, 0.15));
+  background-size: 100% 1px, 100% 1px;
+  background-position: 0 33.333%, 0 66.666%;
+  background-repeat: no-repeat, no-repeat;
+}
+
+.puzzle-tile {
+  position: absolute;
+  font-family: var(--serif);
+  font-style: italic;
+  font-size: 1.25rem;
+  padding: 0.45em 1.1em;
+  border-radius: 999px;
+  border: 1.5px solid var(--bark);
+  background: var(--paper);
+  color: var(--ink);
+  cursor: grab;
+  touch-action: none;
+  user-select: none;
+  white-space: nowrap;
+  box-shadow: 0 2px 5px rgba(44, 51, 39, 0.15);
+}
+
+.puzzle-tile:hover,
+.puzzle-tile:focus-visible {
+  background: var(--sage);
+}
+
+.puzzle-tile.puzzle-tile-dragging {
+  position: fixed;
+  z-index: 10000;
+  cursor: grabbing;
+  box-shadow: 0 10px 20px rgba(44, 51, 39, 0.3);
+  transition: none;
+}
+
+.puzzle-feedback {
+  min-height: 1.4rem;
+  margin: 0 0 1rem;
+  font-size: 0.9rem;
+  color: var(--bark);
+}
+
+.puzzle-feedback-success { color: var(--forest); }
+
+.puzzle-actions {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.7rem;
+}
+
+.puzzle-check {
+  font-family: var(--serif);
+  font-style: italic;
+  font-size: 1.05rem;
+  padding: 0.5em 1.6em;
+  border-radius: 999px;
+  border: 1.5px solid var(--forest);
+  background: var(--forest);
+  color: var(--paper);
+  cursor: pointer;
+  transition: background 0.15s, transform 0.15s;
+}
+
+.puzzle-check:hover,
+.puzzle-check:focus-visible {
+  background: var(--sage-deep);
+  border-color: var(--sage-deep);
+  transform: translateY(-1px);
+}
+
+.puzzle-skip {
+  background: none;
+  border: none;
+  font-family: var(--body);
+  font-style: italic;
+  font-size: 0.9rem;
+  color: var(--ink);
+  opacity: 0.7;
+  cursor: pointer;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.puzzle-skip:hover,
+.puzzle-skip:focus-visible { opacity: 1; }
+
+body.modal-open { overflow: hidden; }
+
 @media (max-width: 860px) {
   .frame::before, .frame::after { display: none; }
 }
@@ -619,4 +805,7 @@ details p { margin: 0 0 1.2rem; color: var(--ink); }
   .countdown { gap: 0.8rem; }
   .countdown span { font-size: 2rem; }
   .countdown div { min-width: 3.6rem; }
+  .puzzle-card { padding: 2.2rem 1.5rem; }
+  .puzzle-tile { font-size: 1.05rem; padding: 0.4em 0.85em; }
+  .puzzle-scramble { height: 420px; }
 }
