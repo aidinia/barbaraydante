@@ -142,7 +142,7 @@ h1, h2 {
   left: 0;
   width: min(48%, 480px);
   aspect-ratio: 650 / 596;
-  background: url("img/ornaments/moon-wash.svg") center / contain no-repeat;
+  background: url("img/ornaments2/moon-wash.svg") center / contain no-repeat;
   opacity: 0.6;
   filter: saturate(0.6) sepia(5%);
   -webkit-mask-image: radial-gradient(circle at 50% 48%, black 0%, black 55%, transparent 92%);
