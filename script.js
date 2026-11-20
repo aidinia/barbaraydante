@@ -14,6 +14,7 @@
   const feedback = document.getElementById("puzzleFeedback");
   const checkBtn = document.getElementById("puzzleCheck");
   const skipBtn = document.getElementById("puzzleSkip");
+  const tiltBtn = document.getElementById("puzzleTilt");
 
   let grabOffsetX = 0;
   let grabOffsetY = 0;
@@ -236,6 +237,82 @@
 
   checkBtn.addEventListener("click", checkOrder);
   skipBtn.addEventListener("click", () => dialog.close());
+
+  // Tilt-to-move (phones only): tilting the device nudges the scattered words
+  // around, like marbles in a wooden maze, instead of only dragging them.
+  const supportsTilt = "DeviceOrientationEvent" in window && window.matchMedia("(pointer: coarse)").matches;
+
+  if (supportsTilt && tiltBtn) {
+    tiltBtn.hidden = false;
+
+    let tiltActive = false;
+    let tiltX = 0;
+    let tiltY = 0;
+    let rafId = null;
+
+    const onOrientation = (e) => {
+      if (e.beta === null || e.gamma === null) return;
+      // gamma: left/right tilt (-90..90); beta: front/back tilt (-180..180),
+      // offset so holding the phone naturally upright reads as "flat".
+      tiltX = Math.max(-1, Math.min(1, e.gamma / 35));
+      tiltY = Math.max(-1, Math.min(1, (e.beta - 40) / 35));
+    };
+
+    const step = () => {
+      const zoneRect = scramble.getBoundingClientRect();
+      Array.from(scramble.children).forEach((tile) => {
+        if (tile.classList.contains("puzzle-tile-dragging")) return;
+        const maxLeft = Math.max(4, zoneRect.width - tile.offsetWidth - 4);
+        const maxTop = Math.max(4, zoneRect.height - tile.offsetHeight - 4);
+        let vx = (tile._tiltVX || 0) + tiltX * 0.6;
+        let vy = (tile._tiltVY || 0) + tiltY * 0.6;
+        let left = (parseFloat(tile.style.left) || 0) + vx;
+        let top = (parseFloat(tile.style.top) || 0) + vy;
+        if (left < 4) { left = 4; vx *= -0.3; }
+        if (left > maxLeft) { left = maxLeft; vx *= -0.3; }
+        if (top < 4) { top = 4; vy *= -0.3; }
+        if (top > maxTop) { top = maxTop; vy *= -0.3; }
+        tile._tiltVX = vx * 0.9;
+        tile._tiltVY = vy * 0.9;
+        tile.style.left = left + "px";
+        tile.style.top = top + "px";
+      });
+      rafId = requestAnimationFrame(step);
+    };
+
+    const startTilting = () => {
+      if (tiltActive) return;
+      tiltActive = true;
+      tiltBtn.textContent = "Inclinación activada";
+      tiltBtn.disabled = true;
+      window.addEventListener("deviceorientation", onOrientation);
+      rafId = requestAnimationFrame(step);
+    };
+
+    tiltBtn.addEventListener("click", () => {
+      if (typeof DeviceOrientationEvent.requestPermission === "function") {
+        DeviceOrientationEvent.requestPermission()
+          .then((state) => {
+            if (state === "granted") startTilting();
+            else tiltBtn.textContent = "Permiso denegado";
+          })
+          .catch(() => {
+            tiltBtn.textContent = "No se pudo activar";
+          });
+      } else {
+        startTilting();
+      }
+    });
+
+    dialog.addEventListener(
+      "close",
+      () => {
+        if (rafId) cancelAnimationFrame(rafId);
+        window.removeEventListener("deviceorientation", onOrientation);
+      },
+      { once: true }
+    );
+  }
 
   dialog.addEventListener("close", () => {
     localStorage.setItem(STORAGE_KEY, "1");
