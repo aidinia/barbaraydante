@@ -15,13 +15,17 @@
 <dialog class="puzzle-gate" id="puzzleGate" aria-label="Acertijo de bienvenida">
   <div class="puzzle-card">
     <p class="puzzle-eyebrow">Antes de entrar</p>
-    <h2 class="puzzle-title">Arrastra las palabras</h2>
-    <p class="puzzle-hint">Ups&hellip; esto se nos ha hecho un lío.<br>Ayúdanos a ordenarlo para que el sueño se haga realidad.</p>
-    <div class="puzzle-scramble" id="puzzleScramble"></div>
-    <p class="puzzle-feedback" id="puzzleFeedback" aria-live="polite">&nbsp;</p>
+    <h2 class="puzzle-title">Ordena las piezas</h2>
+    <p class="puzzle-hint">Arrastra cada pieza a su fila y ordénalas de izquierda a derecha para revelar la frase.</p>
+    <div class="puzzle-scramble" id="puzzleScramble">
+      <div class="puzzle-row-guide" data-row="1"></div>
+      <div class="puzzle-row-guide" data-row="2"></div>
+      <div class="puzzle-row-guide" data-row="3"></div>
+    </div>
+    <p class="puzzle-feedback" id="puzzleFeedback" aria-live="polite"></p>
     <div class="puzzle-actions">
-      <button class="puzzle-check" id="puzzleCheck" type="button">Comprobar orden</button>
-      <button class="puzzle-skip" id="puzzleSkip" type="button">Prefiero saltar esto &rarr;</button>
+      <button class="puzzle-check" id="puzzleCheck" type="button">Comprobar</button>
+      <button class="puzzle-skip" id="puzzleSkip" type="button">Saltar por ahora</button>
     </div>
   </div>
 </dialog>
@@ -45,22 +49,29 @@
   <nav id="menu" class="site-nav" aria-label="Secciones">
     <a href="#bienvenidos">Bienvenidos</a>
     <a href="#historia">Nuestra Historia</a>
-    <a href="#viaje">Viaje</a>
+    <a href="#viaje">El Lugar de Ensueño</a>
     <a href="#alojarse">Dónde alojarse</a>
     <a href="#programa">Programa</a>
+    <a href="#rsvp">Confirmar asistencia</a>
     <a href="#preguntas">Preguntas y respuestas</a>
     <a href="#regalos">Regalos</a>
+    <a href="#despedida">Despedida</a>
   </nav>
 </header>
 
 <section class="hero" id="bienvenidos">
-  <img class="accent accent-left" src="img/ornaments2/starryvines.svg" alt="" aria-hidden="true">
+  <picture>
+    <source media="(max-width: 560px)" srcset="img/ornaments/Presentacion%20left%20mobile.svg">
+    <img class="accent accent-left" src="img/ornaments/Presentacion left.svg" alt="" aria-hidden="true">
+  </picture>
+  <img class="accent accent-right" src="img/ornaments/Presentacion right.svg" alt="" aria-hidden="true">
   <div class="hero-inner">
     <h1>Barbara <span class="amp">&amp;</span> Dante</h1>
    
-    <div class="photo-frame"> <p class="hero-tagline">¡Nos casamos!</p>
-    <p class="hero-date" data-wedding-date>Fecha por confirmar</p>
-    <p class="hero-place">Lugar por confirmar</p></div>
+   <div class="card">
+    <h2>Bienvenidos</h2>
+    <p>Gracias por acompañarnos en este día tan especial. Esta página reúne todo lo que necesitan saber para celebrarlo con nosotros.</p>
+  </div>
     <div class="countdown" data-countdown data-date="" hidden>
       <div><span data-days>--</span><small>días</small></div>
       <div><span data-hours>--</span><small>horas</small></div>
@@ -69,36 +80,21 @@
   </div>
 </section>
 
-<div class="divider" aria-hidden="true"></div>
-
-<section class="frame" id="historia-intro">
-  <div class="card">
-    <h2>Bienvenidos</h2>
-    <p>Gracias por acompañarnos en este día tan especial. Esta página reúne todo lo que necesitan saber para celebrarlo con nosotros.</p>
-  </div>
-</section>
-
-<div class="divider" aria-hidden="true"></div>
-
 <section class="frame" id="historia">
   <div class="card">
     <h2>Nuestra Historia</h2>
-    <p>Escribí aquí cómo se conocieron, cómo empezó todo y qué los trajo hasta este día.</p>
+    <p>Pequeño cuento ilustrado que narra la historia de la pareja, cómo se conocieron y momentos importantes de su relación, combinando humor, romanticismo y aventura.</p>
 
   <div class="gallery" role="list"></div>
   </div>
 </section>
 
-<div class="divider" aria-hidden="true"></div>
-
 <section class="frame" id="viaje">
   <div class="card">
-    <h2>Viaje</h2>
-    <p>Información sobre cómo llegar al lugar de la celebración: dirección, transporte y estacionamiento.</p>
+    <h2>El Lugar de Ensueño</h2>
+    <p>Información del espacio de celebración, dirección, descripción del entorno, mapa, enlace a Google Maps, indicaciones para llegar, transporte, aparcamiento y recomendaciones de alojamiento. También una playlist temática para ir entrando en tema durante el traslado al lugar.</p>
   </div>
 </section>
-
-<div class="divider" aria-hidden="true"></div>
 
 <section class="frame" id="alojarse">
   <div class="card">
@@ -106,8 +102,6 @@
     <p>Hoteles y alojamientos recomendados cerca del lugar de la boda.</p>
   </div>
 </section>
-
-<div class="divider" aria-hidden="true"></div>
 
 <section class="frame" id="programa">
   <div class="card">
@@ -120,7 +114,41 @@
   </div>
 </section>
 
-<div class="divider" aria-hidden="true"></div>
+<section class="frame" id="rsvp">
+  <div class="card">
+    <h2>Confirmar asistencia</h2>
+    <p>Nos encantaría contar contigo. Completa este formulario antes de la fecha límite indicada en tu invitación.</p>
+    <form class="rsvp-form" id="rsvpForm">
+      <label>
+        <span>Nombre completo</span>
+        <input type="text" name="nombre" required>
+      </label>
+      <label>
+        <span>Correo electrónico</span>
+        <input type="email" name="email">
+      </label>
+      <fieldset class="rsvp-attending">
+        <legend>¿Asistirás?</legend>
+        <label class="rsvp-radio"><input type="radio" name="asistencia" value="Sí" required> Sí, allí estaré</label>
+        <label class="rsvp-radio"><input type="radio" name="asistencia" value="No" required> No podré asistir</label>
+      </fieldset>
+      <label>
+        <span>Número de acompañantes</span>
+        <input type="number" name="acompanantes" min="0" value="0">
+      </label>
+      <label>
+        <span>Restricciones alimentarias o alergias</span>
+        <input type="text" name="dieta">
+      </label>
+      <label>
+        <span>Mensaje para los novios</span>
+        <textarea name="mensaje" rows="3"></textarea>
+      </label>
+      <button class="rsvp-submit" type="submit">Enviar confirmación</button>
+      <p class="rsvp-feedback" id="rsvpFeedback" aria-live="polite"></p>
+    </form>
+  </div>
+</section>
 
 <section class="frame" id="preguntas">
   <div class="card">
@@ -140,8 +168,6 @@
   </div>
 </section>
 
-<div class="divider" aria-hidden="true"></div>
-
 <section class="frame" id="regalos">
   <div class="card">
     <h2>Regalos</h2>
@@ -149,7 +175,16 @@
   </div>
 </section>
 
-<div class="divider" aria-hidden="true"></div>
+<section class="despedida-frame" id="despedida">
+  <img class="despedida-edge despedida-top" src="img/ornaments/despedida top.svg" alt="" aria-hidden="true">
+  <img class="despedida-edge despedida-bottom" src="img/ornaments/despedida bottom.svg" alt="" aria-hidden="true">
+  <img class="despedida-edge despedida-left" src="img/ornaments/despedida left.svg" alt="" aria-hidden="true">
+  <img class="despedida-edge despedida-right" src="img/ornaments/despedida right.svg" alt="" aria-hidden="true">
+  <div class="card">
+    <h2>Agradecimientos</h2>
+    <p>Mensaje final de agradecimiento y entusiasmo por compartir la celebración, acompañado de una ilustración de cierre del universo fantástico de la boda.</p>
+  </div>
+</section>
 
 <footer class="site-footer">
   <p>Barbara &amp; Dante</p>

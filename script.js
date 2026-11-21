@@ -1,35 +1,28 @@
 (function () {
   const STORAGE_KEY = "bd_puzzle_passed";
   const dialog = document.getElementById("puzzleGate");
-  const forceShow = new URLSearchParams(location.search).has("puzzle");
-  if (!dialog || (localStorage.getItem(STORAGE_KEY) === "1" && !forceShow)) return;
+  if (!dialog) return;
+
+  const forceShow = new URLSearchParams(location.search).get("puzzle") === "1";
+  if (!forceShow && localStorage.getItem(STORAGE_KEY) === "1") return;
 
   const rows = [
-    ["Boda", "de", "una", "noche", "de", "verano"],
-    ["de"],
-    ["Barbara", "y", "Dante"],
+    [1, 2, 3],
+    [4, 5, 6, 7, 8, 9],
+    [10, 11, 12, 13],
   ];
-  const words = rows.flat();
-  const scramble = document.getElementById("puzzleScramble");
-  const feedback = document.getElementById("puzzleFeedback");
-  const checkBtn = document.getElementById("puzzleCheck");
-  const skipBtn = document.getElementById("puzzleSkip");
+  const SCALE = 0.6;
 
-  let grabOffsetX = 0;
-  let grabOffsetY = 0;
+  const scramble = dialog.querySelector("#puzzleScramble");
+  const feedback = dialog.querySelector("#puzzleFeedback");
+  const checkBtn = dialog.querySelector("#puzzleCheck");
+  const skipBtn = dialog.querySelector("#puzzleSkip");
 
-  const shuffle = (arr) => {
-    const a = arr.slice();
-    for (let i = a.length - 1; i > 0; i--) {
-      const j = Math.floor(Math.random() * (i + 1));
-      [a[i], a[j]] = [a[j], a[i]];
-    }
-    return a;
-  };
+  const placedRects = [];
 
-  function overlapArea(ax, ay, aw, ah, bx, by, bw, bh) {
-    const x = Math.max(0, Math.min(ax + aw, bx + bw) - Math.max(ax, bx));
-    const y = Math.max(0, Math.min(ay + ah, by + bh) - Math.max(ay, by));
+  function overlapArea(a, b) {
+    const x = Math.max(0, Math.min(a.left + a.width, b.left + b.width) - Math.max(a.left, b.left));
+    const y = Math.max(0, Math.min(a.top + a.height, b.top + b.height) - Math.max(a.top, b.top));
     return x * y;
   }
 
@@ -37,165 +30,91 @@
     const zoneRect = scramble.getBoundingClientRect();
     const w = tile.offsetWidth;
     const h = tile.offsetHeight;
-    const maxLeft = Math.max(4, zoneRect.width - w - 4);
-    const maxTop = Math.max(4, zoneRect.height - h - 4);
+    const maxLeft = Math.max(zoneRect.width - w, 0);
+    const maxTop = Math.max(zoneRect.height - h, 0);
 
-    const others = Array.from(scramble.children)
-      .filter((el) => el !== tile)
-      .map((el) => ({
-        x: parseFloat(el.style.left) || 0,
-        y: parseFloat(el.style.top) || 0,
-        w: el.offsetWidth,
-        h: el.offsetHeight,
-      }));
-
-    let bestLeft = 4;
-    let bestTop = 4;
+    let best = null;
     let bestOverlap = Infinity;
-    for (let i = 0; i < 20; i++) {
-      const left = 4 + Math.random() * maxLeft;
-      const top = 4 + Math.random() * maxTop;
-      const overlap = others.reduce((sum, o) => sum + overlapArea(left, top, w, h, o.x, o.y, o.w, o.h), 0);
-      if (overlap < bestOverlap) {
-        bestOverlap = overlap;
-        bestLeft = left;
-        bestTop = top;
-        if (overlap === 0) break;
+    for (let attempt = 0; attempt < 40; attempt++) {
+      const left = Math.random() * maxLeft;
+      const top = Math.random() * maxTop;
+      const rect = { left, top, width: w, height: h };
+      let totalOverlap = 0;
+      for (const r of placedRects) totalOverlap += overlapArea(rect, r);
+      if (totalOverlap < bestOverlap) {
+        bestOverlap = totalOverlap;
+        best = rect;
+        if (totalOverlap === 0) break;
       }
     }
-    tile.style.left = bestLeft + "px";
-    tile.style.top = bestTop + "px";
+    if (!best) best = { left: 0, top: 0, width: w, height: h };
+    tile.style.left = best.left + "px";
+    tile.style.top = best.top + "px";
+    placedRects.push(best);
   }
 
   function clampWithinZone(tile, left, top) {
     const zoneRect = scramble.getBoundingClientRect();
-    const w = tile.offsetWidth;
-    const h = tile.offsetHeight;
+    const maxLeft = Math.max(zoneRect.width - tile.offsetWidth, 0);
+    const maxTop = Math.max(zoneRect.height - tile.offsetHeight, 0);
     return {
-      left: Math.max(4, Math.min(left, zoneRect.width - w - 4)),
-      top: Math.max(4, Math.min(top, zoneRect.height - h - 4)),
+      left: Math.min(Math.max(left, 0), maxLeft),
+      top: Math.min(Math.max(top, 0), maxTop),
     };
   }
 
-  function checkOrder() {
-    const zoneHeight = scramble.getBoundingClientRect().height;
-    const bandHeight = zoneHeight / rows.length;
-
-    const tiles = Array.from(scramble.children);
-    const byRow = rows.map(() => []);
-    tiles.forEach((tile) => {
-      const centerY = (parseFloat(tile.style.top) || 0) + tile.offsetHeight / 2;
-      const rowIndex = Math.min(rows.length - 1, Math.max(0, Math.floor(centerY / bandHeight)));
-      byRow[rowIndex].push(tile);
-    });
-
-    const currentRows = byRow.map((rowTiles) =>
-      rowTiles
-        .sort((a, b) => (parseFloat(a.style.left) || 0) - (parseFloat(b.style.left) || 0))
-        .map((el) => el.dataset.word)
-    );
-
-    console.log("current order:", currentRows.map((row) => row.join(" ")).join(" / "));
-
-    const correct = rows.every(
-      (row, i) => currentRows[i].length === row.length && currentRows[i].every((w, j) => w === row[j])
-    );
-    if (correct) {
-      feedback.textContent = "¡Lo habéis conseguido! Bienvenidos.";
-      feedback.classList.add("puzzle-feedback-success");
-      localStorage.setItem(STORAGE_KEY, "1");
-      setTimeout(() => dialog.close(), 900);
-    } else {
-      feedback.textContent = "Ese orden no es correcto, inténtalo de nuevo.";
-      dialog.classList.add("puzzle-shake");
-      setTimeout(() => dialog.classList.remove("puzzle-shake"), 400);
-    }
-  }
-
   function attachTileEvents(tile) {
-    let startX = 0;
-    let startY = 0;
     let isDragging = false;
     let pointerId = null;
+    let grabOffsetX = 0;
+    let grabOffsetY = 0;
+
+    function finishDrag() {
+      tile.classList.remove("puzzle-tile-dragging");
+      isDragging = false;
+      pointerId = null;
+    }
 
     tile.addEventListener("pointerdown", (e) => {
-      if (e.pointerType === "mouse" && e.button !== 0) return;
-      startX = e.clientX;
-      startY = e.clientY;
-      isDragging = false;
+      isDragging = true;
       pointerId = e.pointerId;
+      const rect = tile.getBoundingClientRect();
+      grabOffsetX = e.clientX - rect.left;
+      grabOffsetY = e.clientY - rect.top;
+      tile.classList.add("puzzle-tile-dragging");
       try {
         tile.setPointerCapture(pointerId);
       } catch (err) {
-        /* capture may be unavailable for this pointer; dragging still works without it */
+        /* ignore */
       }
     });
 
     tile.addEventListener("pointermove", (e) => {
-      if (pointerId === null || e.pointerId !== pointerId) return;
-      const dx = e.clientX - startX;
-      const dy = e.clientY - startY;
-
-      if (!isDragging && Math.hypot(dx, dy) > 6) {
-        isDragging = true;
-        const rect = tile.getBoundingClientRect();
-        grabOffsetX = e.clientX - rect.left;
-        grabOffsetY = e.clientY - rect.top;
-        tile.style.width = rect.width + "px";
-        dialog.appendChild(tile);
-        tile.classList.add("puzzle-tile-dragging");
-        tile.style.left = rect.left + "px";
-        tile.style.top = rect.top + "px";
-      }
-
-      if (isDragging) {
-        tile.style.left = (e.clientX - grabOffsetX) + "px";
-        tile.style.top = (e.clientY - grabOffsetY) + "px";
-      }
+      if (!isDragging || e.pointerId !== pointerId) return;
+      const zoneRect = scramble.getBoundingClientRect();
+      const pos = clampWithinZone(
+        tile,
+        e.clientX - zoneRect.left - grabOffsetX,
+        e.clientY - zoneRect.top - grabOffsetY
+      );
+      tile.style.left = pos.left + "px";
+      tile.style.top = pos.top + "px";
     });
 
     tile.addEventListener("pointerup", (e) => {
-      if (pointerId === null || e.pointerId !== pointerId) return;
+      if (!isDragging || e.pointerId !== pointerId) return;
       try {
         tile.releasePointerCapture(pointerId);
       } catch (err) {
-        /* capture may already be gone; cleanup below must still run */
+        /* ignore */
       }
-      pointerId = null;
-
-      if (isDragging) {
-        tile.classList.remove("puzzle-tile-dragging");
-        tile.style.width = "";
-        const zoneRect = scramble.getBoundingClientRect();
-        const pos = clampWithinZone(
-          tile,
-          e.clientX - zoneRect.left - grabOffsetX,
-          e.clientY - zoneRect.top - grabOffsetY
-        );
-        scramble.appendChild(tile);
-        tile.style.left = pos.left + "px";
-        tile.style.top = pos.top + "px";
-      }
-      isDragging = false;
+      finishDrag();
     });
 
     tile.addEventListener("pointercancel", () => {
-      if (isDragging) {
-        tile.classList.remove("puzzle-tile-dragging");
-        tile.style.width = "";
-        scramble.appendChild(tile);
-        positionTileRandomly(tile);
-      }
-      isDragging = false;
-      pointerId = null;
+      if (isDragging) finishDrag();
     });
 
-    // Fast movement can make the browser drop pointer capture without ever firing
-    // pointerup/pointercancel, which would strand the tile mid-drag. This always
-    // fires when capture ends, so it's the safety net that finishes the drop.
-    // Reparenting the tile into the dialog (above) can itself trigger this event
-    // even though the user is still dragging, so try to silently regain capture
-    // first and only finalize the drop if the pointer is genuinely gone.
     tile.addEventListener("lostpointercapture", (e) => {
       if (!isDragging || pointerId === null) return;
       try {
@@ -204,48 +123,117 @@
       } catch (err) {
         /* capture really is gone; finish the drop below */
       }
-      tile.classList.remove("puzzle-tile-dragging");
-      tile.style.width = "";
       const zoneRect = scramble.getBoundingClientRect();
       const pos = clampWithinZone(
         tile,
         e.clientX - zoneRect.left - grabOffsetX,
         e.clientY - zoneRect.top - grabOffsetY
       );
-      scramble.appendChild(tile);
       tile.style.left = pos.left + "px";
       tile.style.top = pos.top + "px";
-      isDragging = false;
-      pointerId = null;
+      finishDrag();
     });
   }
 
   function createTiles() {
-    scramble.innerHTML = "";
-    shuffle(words).forEach((word) => {
-      const tile = document.createElement("button");
-      tile.type = "button";
-      tile.className = "puzzle-tile";
-      tile.textContent = word;
-      tile.dataset.word = word;
-      attachTileEvents(tile);
-      scramble.appendChild(tile);
-      positionTileRandomly(tile);
+    placedRects.length = 0;
+    scramble.querySelectorAll(".puzzle-tile").forEach((t) => t.remove());
+
+    rows.forEach((row, rowIndex) => {
+      row.forEach((id) => {
+        const tile = document.createElement("img");
+        tile.className = "puzzle-tile";
+        tile.src = "img/ornaments/puzzle" + id + ".svg";
+        tile.alt = "";
+        tile.draggable = false;
+        tile.dataset.puzzle = String(id);
+        tile.dataset.row = String(rowIndex + 1);
+        scramble.appendChild(tile);
+
+        const place = () => {
+          tile.style.width = Math.round(tile.naturalWidth * SCALE) + "px";
+          tile.style.height = Math.round(tile.naturalHeight * SCALE) + "px";
+          positionTileRandomly(tile);
+        };
+        if (tile.complete && tile.naturalWidth) {
+          place();
+        } else {
+          tile.addEventListener("load", place, { once: true });
+        }
+        attachTileEvents(tile);
+      });
     });
   }
 
-  checkBtn.addEventListener("click", checkOrder);
-  skipBtn.addEventListener("click", () => dialog.close());
+  function checkOrder() {
+    const zoneRect = scramble.getBoundingClientRect();
+    const bandHeight = zoneRect.height / 3;
+    const bands = [[], [], []];
 
-  dialog.addEventListener("close", () => {
-    localStorage.setItem(STORAGE_KEY, "1");
-    document.body.classList.remove("modal-open");
+    scramble.querySelectorAll(".puzzle-tile").forEach((tile) => {
+      const r = tile.getBoundingClientRect();
+      const centerX = r.left - zoneRect.left + r.width / 2;
+      const centerY = r.top - zoneRect.top + r.height / 2;
+      let band = Math.floor(centerY / bandHeight);
+      band = Math.min(Math.max(band, 0), 2);
+      bands[band].push({ id: Number(tile.dataset.puzzle), x: centerX });
+    });
+
+    const currentRows = bands.map((band) =>
+      band
+        .sort((a, b) => a.x - b.x)
+        .map((t) => t.id)
+    );
+
+    console.log("current order:", currentRows.map((row) => row.join(",")).join(" / "));
+
+    return rows.every((expected, i) => {
+      const got = currentRows[i];
+      return got.length === expected.length && expected.every((id, idx) => got[idx] === id);
+    });
+  }
+
+  checkBtn.addEventListener("click", () => {
+    if (checkOrder()) {
+      feedback.classList.add("puzzle-feedback-success");
+      feedback.textContent = "¡Correcto! Bienvenidos a nuestra boda.";
+      setTimeout(() => dialog.close(), 900);
+    } else {
+      feedback.classList.remove("puzzle-feedback-success");
+      feedback.textContent = "Todavía no... inténtalo de nuevo.";
+      dialog.classList.add("puzzle-shake");
+      setTimeout(() => dialog.classList.remove("puzzle-shake"), 400);
+    }
   });
 
+  skipBtn.addEventListener("click", () => dialog.close());
+
+  dialog.addEventListener(
+    "close",
+    () => {
+      document.body.classList.remove("modal-open");
+      localStorage.setItem(STORAGE_KEY, "1");
+    },
+    { once: true }
+  );
+
+  createTiles();
   document.body.classList.add("modal-open");
   dialog.showModal();
-  createTiles();
 })();
+
+const siteHeader = document.querySelector(".site-header");
+const setHeaderHeightVar = () => {
+  if (siteHeader) {
+    document.documentElement.style.setProperty("--header-h", siteHeader.offsetHeight + "px");
+  }
+};
+setHeaderHeightVar();
+window.addEventListener("resize", setHeaderHeightVar);
+window.addEventListener("load", setHeaderHeightVar);
+if (document.fonts && document.fonts.ready) {
+  document.fonts.ready.then(setHeaderHeightVar);
+}
 
 const toggle = document.querySelector(".menu-toggle");
 const menu = document.getElementById("menu");
@@ -299,4 +287,49 @@ if (weddingDate && !Number.isNaN(weddingDate.getTime())) {
   };
   tick();
   setInterval(tick, 30000);
+}
+
+// RSVP form -> Google Sheet via Apps Script web app.
+// Replace this with your own deployed Apps Script /exec URL (see rsvp-apps-script.gs).
+const RSVP_ENDPOINT = "REPLACE_WITH_YOUR_APPS_SCRIPT_URL";
+
+const rsvpForm = document.getElementById("rsvpForm");
+if (rsvpForm) {
+  const rsvpFeedback = document.getElementById("rsvpFeedback");
+  const rsvpSubmit = rsvpForm.querySelector(".rsvp-submit");
+
+  rsvpForm.addEventListener("submit", (e) => {
+    e.preventDefault();
+
+    if (RSVP_ENDPOINT.indexOf("REPLACE_WITH") === 0) {
+      rsvpFeedback.classList.remove("rsvp-feedback-success");
+      rsvpFeedback.textContent =
+        "El formulario todavía no está conectado. Sigue las instrucciones de rsvp-apps-script.gs.";
+      return;
+    }
+
+    rsvpSubmit.disabled = true;
+    rsvpFeedback.classList.remove("rsvp-feedback-success");
+    rsvpFeedback.textContent = "Enviando...";
+
+    const formData = new FormData(rsvpForm);
+
+    fetch(RSVP_ENDPOINT, {
+      method: "POST",
+      mode: "no-cors",
+      body: formData,
+    })
+      .then(() => {
+        rsvpFeedback.classList.add("rsvp-feedback-success");
+        rsvpFeedback.textContent = "¡Gracias! Hemos recibido tu confirmación.";
+        rsvpForm.reset();
+      })
+      .catch(() => {
+        rsvpFeedback.classList.remove("rsvp-feedback-success");
+        rsvpFeedback.textContent = "Hubo un problema al enviar. Inténtalo de nuevo.";
+      })
+      .finally(() => {
+        rsvpSubmit.disabled = false;
+      });
+  });
 }

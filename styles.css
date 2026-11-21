@@ -1,15 +1,16 @@
 :root {
+  --header-h: 72px;
   --sage: #a9c58a;
   --sage-deep: #7f9d62;
   --forest: #2f4a2a;
-  --cream: #f7f3ea;
-  --paper: #fbf9f3;
+  --cream: #fbe9cd;
   --bark: #a86c44;
   --ink: #2c3327;
   --serif: "Cormorant Garamond", "EB Garamond", Georgia, serif;
   --body: "EB Garamond", "Cormorant Garamond", Georgia, serif;
   --script: "Great Vibes", "Cormorant Garamond", cursive;
   --grain: url("data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22320%22 height=%22320%22%3E%3Cfilter id=%22p%22%3E%3CfeTurbulence type=%22fractalNoise%22 baseFrequency=%220.012%22 numOctaves=%223%22 seed=%227%22 stitchTiles=%22stitch%22 result=%22n%22/%3E%3CfeDiffuseLighting in=%22n%22 surfaceScale=%221.4%22 diffuseConstant=%221%22 lighting-color=%22%23fff%22 result=%22l%22%3E%3CfeDistantLight azimuth=%2255%22 elevation=%2250%22/%3E%3C/feDiffuseLighting%3E%3C/filter%3E%3Crect width=%22100%25%22 height=%22100%25%22 filter=%22url(%23p)%22/%3E%3C/svg%3E");
+  --grain2: url("data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22320%22 height=%22320%22%3E%3Cfilter id=%22p2%22%3E%3CfeTurbulence type=%22fractalNoise%22 baseFrequency=%220.012%22 numOctaves=%223%22 seed=%227%22 stitchTiles=%22stitch%22 result=%22n%22/%3E%3CfeDiffuseLighting in=%22n%22 surfaceScale=%221.4%22 diffuseConstant=%221%22 lighting-color=%22%23fff%22 result=%22l%22%3E%3CfeDistantLight azimuth=%2255%22 elevation=%2250%22/%3E%3C/feDiffuseLighting%3E%3CfeComponentTransfer in=%22l%22%3E%3CfeFuncR type=%22gamma%22 amplitude=%221%22 exponent=%220.6%22 offset=%220%22/%3E%3CfeFuncG type=%22gamma%22 amplitude=%221%22 exponent=%220.6%22 offset=%220%22/%3E%3CfeFuncB type=%22gamma%22 amplitude=%221%22 exponent=%220.6%22 offset=%220%22/%3E%3C/feComponentTransfer%3E%3C/filter%3E%3Crect width=%22100%25%22 height=%22100%25%22 filter=%22url(%23p2)%22/%3E%3C/svg%3E");
 }
 
 * { box-sizing: border-box; }
@@ -22,7 +23,7 @@ body {
   font-weight: 400;
   font-size: 1.15rem;
   color: var(--ink);
-  background-color: var(--paper);
+  background-color: var(--cream);
   background-image: var(--grain);
   background-blend-mode: multiply;
   background-size: 320px 320px;
@@ -110,7 +111,7 @@ h1, h2 {
     flex-direction: column;
     gap: 0;
     padding: 0.5rem 1.25rem 1rem;
-    background: var(--paper);
+    background: var(--cream);
     border-bottom: 1px solid rgba(47, 74, 42, 0.12);
   }
   .site-nav a { padding: 0.7rem 0; }
@@ -120,7 +121,7 @@ h1, h2 {
 /* Hero */
 .hero {
   position: relative;
-  min-height: min(92vh, 900px);
+  min-height: calc(100vh - var(--header-h));
   display: grid;
   place-items: center;
   padding: 6rem 1.25rem;
@@ -134,52 +135,22 @@ h1, h2 {
   overflow: hidden;
 }
 
-.hero::before {
-  content: "";
-  position: absolute;
-  z-index: 1;
-  top: 0;
-  left: 0;
-  width: min(48%, 480px);
-  aspect-ratio: 650 / 596;
-  background: url("img/ornaments2/moon-wash.svg") center / contain no-repeat;
-  opacity: 0.6;
-  filter: saturate(0.6) sepia(5%);
-  -webkit-mask-image: radial-gradient(circle at 50% 48%, black 0%, black 55%, transparent 92%);
-  mask-image: radial-gradient(circle at 50% 48%, black 0%, black 55%, transparent 92%);
-  pointer-events: none;
-}
-
-.hero::after {
-  content: "";
-  position: absolute;
-  z-index: 0;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 640px;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 1400 640%22 preserveAspectRatio=%22none%22%3E%3Cdefs%3E%3Cfilter id=%22dustySoft%22 x=%22-60%25%22 y=%22-60%25%22 width=%22220%25%22 height=%22220%25%22%3E%3CfeGaussianBlur stdDeviation=%2240%22/%3E%3C/filter%3E%3ClinearGradient id=%22fadeV%22 x1=%220%22 y1=%220%22 x2=%220%22 y2=%221%22%3E%3Cstop offset=%220%25%22 stop-color=%22%23ffffff%22 stop-opacity=%221%22/%3E%3Cstop offset=%2245%25%22 stop-color=%22%23ffffff%22 stop-opacity=%220.6%22/%3E%3Cstop offset=%22100%25%22 stop-color=%22%23ffffff%22 stop-opacity=%220%22/%3E%3C/linearGradient%3E%3Cmask id=%22fadeMask%22%3E%3Crect width=%221400%22 height=%22640%22 fill=%22url(%23fadeV)%22/%3E%3C/mask%3E%3C/defs%3E%3Cg mask=%22url(%23fadeMask)%22 opacity=%220.8%22%3E%3Cellipse cx=%22200%22 cy=%2250%22 rx=%22500%22 ry=%22190%22 fill=%22%23989ba7%22 filter=%22url(%23dustySoft)%22/%3E%3Cellipse cx=%22760%22 cy=%2280%22 rx=%22520%22 ry=%22180%22 fill=%22%23dcc7dd%22 filter=%22url(%23dustySoft)%22/%3E%3Cellipse cx=%221260%22 cy=%2260%22 rx=%22380%22 ry=%22160%22 fill=%22%23d7d9ec%22 filter=%22url(%23dustySoft)%22/%3E%3C/g%3E%3C/svg%3E");
-  background-size: 100% 100%;
-  background-repeat: no-repeat;
-  pointer-events: none;
-}
-
-.hero-inner { position: relative; z-index: 1; width: 100%; max-width: 1200px; }
+.hero-inner { position: relative; z-index: 1; width: 100%; max-width: 1200px; margin-top: 4rem; }
 
 .accent {
   position: absolute;
   z-index: 2;
-  top: 50%;
-  width: 130px;
-  height: auto;
-  transform: translateY(-50%);
+  top: 0;
+  width: auto;
+  max-width: none;
+  height: 100%;
   pointer-events: none;
   opacity: 0.85;
 }
 
 .accent-left { left: 0; }
 
-.accent-right { right: 0; transform: translateY(-50%) scaleX(-1); }
+.accent-right { right: 0; }
 
 .eyebrow {
   margin: 0 0 0.5rem;
@@ -233,37 +204,6 @@ h1, h2 {
   min-height: 420px;
   margin: 2.5rem auto 0;
   padding: 2.4rem;
-  background-color: var(--paper);
-  background-image: var(--grain);
-  background-blend-mode: multiply;
-  background-size: 320px 320px;
-  background-repeat: repeat;
-  box-shadow: 0 14px 34px rgba(47, 74, 42, 0.25);
-}
-
-/* Only the right side carries the painted corners (the hero's vine
-   already occupies the left), straddling the frame edge like the cards. */
-.photo-frame::before,
-.photo-frame::after {
-  content: "";
-  position: absolute;
-  z-index: 2;
-  right: -20px;
-  width: 110px;
-  height: 119px;
-  background-repeat: no-repeat;
-  background-size: contain;
-  pointer-events: none;
-}
-
-.photo-frame::before {
-  top: -20px;
-  background-image: url("img/ornaments2/border2-tr.svg");
-}
-
-.photo-frame::after {
-  bottom: -20px;
-  background-image: url("img/ornaments2/border2-br.svg");
 }
 
 .hero-photo {
@@ -302,8 +242,12 @@ h1, h2 {
 /* Framed sections */
 .frame {
   position: relative;
+  min-height: calc(100vh - var(--header-h));
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
   padding: 3.5rem 1.25rem;
-  background-color: var(--paper);
+  background-color: var(--cream);
   background-image: var(--grain);
   background-blend-mode: multiply;
   background-size: 320px 320px;
@@ -332,23 +276,137 @@ h1, h2 {
    the first sections use the starry vine, the later ones vines2. */
 #historia-intro::before,
 #historia::after,
-#viaje::before,
-#alojarse::after,
-#programa::before,
+#programa::after,
 #preguntas::after,
 #regalos::before {
   content: none;
 }
 
-#historia-intro::after,
-#historia::before {
+#historia-intro::after {
   background-image: url("img/ornaments2/starryvines.svg");
 }
 
-#viaje::after,
-#alojarse::before {
-  background-image: url("img/ornaments2/vinemid.svg");
+#historia::before {
+  background-image: url("img/ornaments/Section%20left.svg");
+  top: 0;
+  height: 100%;
+  width: auto;
+  max-width: none;
+  aspect-ratio: 498 / 794.25;
+  transform: none;
 }
+
+#programa::before {
+  background-image: url("img/ornaments/section%20tree.svg");
+  top: 0;
+  height: 100%;
+  width: auto;
+  max-width: none;
+  aspect-ratio: 292.5 / 810;
+  transform: none;
+}
+
+#preguntas::before {
+  background-image: url("img/ornaments/horizontal%20forest.svg");
+  top: auto;
+  bottom: 0;
+  left: 50%;
+  width: min(900px, 92%);
+  height: auto;
+  aspect-ratio: 1050.75 / 404.25;
+  transform: translateX(-50%);
+}
+
+#regalos::after {
+  background-image: url("img/ornaments/section%20corner.svg");
+  top: 0;
+  right: 0;
+  width: 30%;
+  aspect-ratio: 635.25 / 523.5;
+  transform: none;
+}
+
+#alojarse::before {
+  background-image: url("img/ornaments/corner%201.svg");
+  top: 0;
+  left: 0;
+  width: 30%;
+  aspect-ratio: 430.5 / 372;
+  transform: none;
+}
+
+#alojarse::after {
+  background-image: url("img/ornaments/flowers.svg");
+  top: auto;
+  bottom: 0;
+  right: 0;
+  transform: none;
+  height: min(50vh, 44.33vw);
+  width: auto;
+  aspect-ratio: 670.5 / 743.25;
+}
+
+/* Viaje: a flower-lined path along the bottom instead of a side vine */
+#viaje::before,
+#viaje::after {
+  top: auto;
+  bottom: 0;
+  height: auto;
+  transform: none;
+}
+
+#viaje::before {
+  left: 0;
+  width: min(480px, 42%);
+  aspect-ratio: 481.5 / 219.75;
+  background-image: url("img/ornaments/path%20left.svg");
+}
+
+#viaje::after {
+  right: 0;
+  width: min(430px, 42%);
+  aspect-ratio: 428.88 / 237;
+  background-image: url("img/ornaments/path%20right.svg");
+}
+
+/* Despedida: framed on all four sides by dedicated artwork instead of the vines */
+.despedida-frame {
+  position: relative;
+  min-height: calc(100vh - var(--header-h));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 7rem 3rem;
+}
+
+.despedida-edge {
+  position: absolute;
+  z-index: 2;
+  pointer-events: none;
+}
+
+.despedida-top,
+.despedida-bottom {
+  left: 50%;
+  width: min(900px, 92%);
+  max-width: none;
+  height: auto;
+  transform: translateX(-50%);
+}
+
+.despedida-top { top: 0; }
+.despedida-bottom { bottom: 0; }
+
+.despedida-left,
+.despedida-right {
+  top: 0;
+  height: 100%;
+  width: auto;
+  max-width: none;
+}
+
+.despedida-left { left: 0; }
+.despedida-right { right: 0; }
 
 .card {
   position: relative;
@@ -357,60 +415,6 @@ h1, h2 {
   margin: 0 auto;
   padding: 2.6rem 2.2rem;
   text-align: center;
-  background-color: var(--cream);
-  background-image: var(--grain);
-  background-blend-mode: multiply;
-  background-size: 320px 320px;
-  background-repeat: repeat;
-}
-
-/* Each card shows the painted corners only on the side opposite its
-   section's vine, so a section reads as vine on one side, border on the other.
-   The corners straddle the card edge (negative offset) so the artwork
-   covers the seam between the card and the section background. */
-.card::before,
-.card::after {
-  content: "";
-  position: absolute;
-  z-index: 2;
-  width: 110px;
-  height: 119px;
-  background-repeat: no-repeat;
-  background-size: contain;
-  pointer-events: none;
-}
-
-.card::before { top: -20px; }
-.card::after { bottom: -20px; }
-
-#historia-intro .card::before,
-#viaje .card::before,
-#programa .card::before,
-#regalos .card::before {
-  left: -20px;
-  background-image: url("img/ornaments2/border2-tl.svg");
-}
-
-#historia-intro .card::after,
-#viaje .card::after,
-#programa .card::after,
-#regalos .card::after {
-  left: -20px;
-  background-image: url("img/ornaments2/border2-bl.svg");
-}
-
-#historia .card::before,
-#alojarse .card::before,
-#preguntas .card::before {
-  right: -20px;
-  background-image: url("img/ornaments2/border2-tr.svg");
-}
-
-#historia .card::after,
-#alojarse .card::after,
-#preguntas .card::after {
-  right: -20px;
-  background-image: url("img/ornaments2/border2-br.svg");
 }
 
 @media (min-width: 561px) {
@@ -569,18 +573,6 @@ details[open] summary::after { content: "\2013"; }
 
 details p { margin: 0 0 1.2rem; color: var(--ink); }
 
-/* Section divider */
-.divider {
-  width: 100%;
-  aspect-ratio: 909.75 / 96.75;
-  background-color: var(--cream);
-  background-image: var(--grain), url("img/ornaments2/Dunes.svg");
-  background-blend-mode: multiply, normal;
-  background-position: center, center;
-  background-repeat: repeat, no-repeat;
-  background-size: 320px 320px, 100% 100%;
-}
-
 /* Footer */
 .site-footer {
   padding: 3rem 1.25rem;
@@ -636,176 +628,302 @@ details p { margin: 0 0 1.2rem; color: var(--ink); }
   position: fixed;
   inset: 0;
   margin: auto;
-  max-width: 740px;
-  width: 94vw;
+  width: min(94vw, 720px);
+  max-width: none;
+  max-height: 90vh;
+  border: none;
+  padding: 0;
+  background: none;
+  overflow: visible;
+}
+
+.puzzle-gate::backdrop {
+  background: rgba(44, 51, 39, 0.55);
+  backdrop-filter: blur(3px);
+}
+
+.puzzle-card {
   max-height: 90vh;
   overflow-y: auto;
-  padding: 0;
-  border: none;
-  border-radius: 4px;
+  padding: 2.6rem 2.2rem;
+  text-align: center;
   background-color: var(--cream);
   background-image: var(--grain);
   background-blend-mode: multiply;
   background-size: 320px 320px;
   background-repeat: repeat;
-  box-shadow: 0 24px 60px rgba(44, 51, 39, 0.35);
-}
-
-.puzzle-gate::backdrop {
-  background: rgba(44, 51, 39, 0.55);
-  backdrop-filter: blur(4px);
-}
-
-.puzzle-card {
-  padding: 3.2rem 2.6rem;
-  text-align: center;
+  box-shadow: 0 20px 50px rgba(44, 51, 39, 0.35);
 }
 
 .puzzle-eyebrow {
   margin: 0 0 0.3rem;
   text-transform: uppercase;
-  letter-spacing: 0.25em;
+  letter-spacing: 0.15em;
   font-size: 0.75rem;
   color: var(--bark);
 }
 
 .puzzle-title {
-  margin: 0 0 0.4rem;
   font-family: var(--script);
   font-weight: 400;
+  font-size: clamp(2rem, 6vw, 2.8rem);
+  margin: 0 0 0.8rem;
   color: var(--forest);
-  font-size: clamp(2.2rem, 7vw, 2.8rem);
 }
 
 .puzzle-hint {
-  margin: 0 0 1.2rem;
-  font-size: 0.92rem;
+  margin: 0 0 1.5rem;
+  font-size: 1rem;
   color: var(--ink);
-  opacity: 0.85;
 }
 
-.puzzle-gate.puzzle-shake { animation: puzzle-shake 0.4s; }
-
-@keyframes puzzle-shake {
-  0%, 100% { transform: translateX(0); }
-  25% { transform: translateX(-6px); }
-  75% { transform: translateX(6px); }
-}
-
-/* Scramble zone: words scattered at random positions; drag them around
-   this same space and arrange them left-to-right to spell the sentence. */
 .puzzle-scramble {
   position: relative;
-  height: 380px;
-  margin-bottom: 0.8rem;
-  border: 1.5px dashed rgba(47, 74, 42, 0.15);
-  border-radius: 6px;
-  /* two faint guide lines hinting at the 3-row layout, without per-word boxes */
-  background-image:
-    linear-gradient(rgba(47, 74, 42, 0.15), rgba(47, 74, 42, 0.15)),
-    linear-gradient(rgba(47, 74, 42, 0.15), rgba(47, 74, 42, 0.15));
-  background-size: 100% 1px, 100% 1px;
-  background-position: 0 33.333%, 0 66.666%;
-  background-repeat: no-repeat, no-repeat;
+  width: 100%;
+  min-height: 380px;
+  background: rgba(255, 255, 255, 0.25);
+  border: 1px dashed rgba(47, 74, 42, 0.3);
 }
+
+.puzzle-row-guide {
+  position: absolute;
+  left: 0;
+  width: 100%;
+  height: calc(100% / 3);
+  pointer-events: none;
+}
+
+.puzzle-row-guide[data-row="1"] { top: 0; }
+.puzzle-row-guide[data-row="2"] { top: calc(100% / 3); background: rgba(47, 74, 42, 0.04); }
+.puzzle-row-guide[data-row="3"] { top: calc(100% / 3 * 2); }
 
 .puzzle-tile {
   position: absolute;
-  font-family: var(--serif);
-  font-style: italic;
-  font-size: 1.25rem;
-  padding: 0.45em 1.1em;
-  border-radius: 999px;
-  border: 1.5px solid var(--bark);
-  background: var(--paper);
-  color: var(--ink);
-  cursor: grab;
+  max-width: none;
   touch-action: none;
+  cursor: grab;
   user-select: none;
-  white-space: nowrap;
-  box-shadow: 0 2px 5px rgba(44, 51, 39, 0.15);
+  -webkit-user-drag: none;
+  z-index: 1;
 }
 
-.puzzle-tile:hover,
-.puzzle-tile:focus-visible {
-  background: var(--sage);
-}
+.puzzle-tile:hover { filter: drop-shadow(0 2px 6px rgba(47, 74, 42, 0.35)); }
 
-.puzzle-tile.puzzle-tile-dragging {
-  position: fixed;
-  z-index: 10000;
+.puzzle-tile-dragging {
   cursor: grabbing;
-  box-shadow: 0 10px 20px rgba(44, 51, 39, 0.3);
-  transition: none;
+  z-index: 5;
+  filter: drop-shadow(0 6px 14px rgba(47, 74, 42, 0.45));
 }
 
 .puzzle-feedback {
   min-height: 1.4rem;
-  margin: 0 0 1rem;
-  font-size: 0.9rem;
+  margin: 1rem 0 0;
+  font-size: 1rem;
   color: var(--bark);
 }
 
 .puzzle-feedback-success { color: var(--forest); }
 
 .puzzle-actions {
+  margin-top: 1rem;
   display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 0.7rem;
+  justify-content: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.puzzle-check,
+.puzzle-skip {
+  font-family: var(--body);
+  font-size: 0.95rem;
+  padding: 0.7rem 1.6rem;
+  border-radius: 999px;
+  cursor: pointer;
 }
 
 .puzzle-check {
-  font-family: var(--serif);
-  font-style: italic;
-  font-size: 1.05rem;
-  padding: 0.5em 1.6em;
-  border-radius: 999px;
-  border: 1.5px solid var(--forest);
+  border: 1px solid var(--forest);
   background: var(--forest);
-  color: var(--paper);
-  cursor: pointer;
-  transition: background 0.15s, transform 0.15s;
+  color: var(--cream);
 }
 
 .puzzle-check:hover,
-.puzzle-check:focus-visible {
-  background: var(--sage-deep);
-  border-color: var(--sage-deep);
-  transform: translateY(-1px);
-}
+.puzzle-check:focus-visible { background: var(--sage-deep); border-color: var(--sage-deep); }
 
 .puzzle-skip {
+  border: 1px solid var(--bark);
   background: none;
-  border: none;
-  font-family: var(--body);
-  font-style: italic;
-  font-size: 0.9rem;
-  color: var(--ink);
-  opacity: 0.7;
-  cursor: pointer;
-  text-decoration: underline;
-  text-underline-offset: 3px;
+  color: var(--bark);
 }
 
 .puzzle-skip:hover,
-.puzzle-skip:focus-visible { opacity: 1; }
+.puzzle-skip:focus-visible { background: var(--bark); color: var(--cream); }
+
+.puzzle-gate.puzzle-shake .puzzle-card { animation: puzzle-shake 0.4s; }
+
+@keyframes puzzle-shake {
+  0%, 100% { transform: translateX(0); }
+  20% { transform: translateX(-10px); }
+  40% { transform: translateX(8px); }
+  60% { transform: translateX(-6px); }
+  80% { transform: translateX(4px); }
+}
 
 body.modal-open { overflow: hidden; }
 
+/* RSVP form */
+.rsvp-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.3rem;
+  max-width: 440px;
+  margin: 2rem auto 0;
+  text-align: left;
+}
+
+.rsvp-form label {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  font-size: 0.95rem;
+  color: var(--ink);
+}
+
+.rsvp-form span {
+  font-size: 0.78rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--bark);
+}
+
+.rsvp-form input[type="text"],
+.rsvp-form input[type="email"],
+.rsvp-form input[type="number"],
+.rsvp-form textarea {
+  font-family: var(--body);
+  font-size: 1rem;
+  padding: 0.5rem 0.1rem;
+  border: none;
+  border-bottom: 1px solid rgba(47, 74, 42, 0.3);
+  background: transparent;
+  color: var(--ink);
+  resize: vertical;
+}
+
+.rsvp-form input:focus-visible,
+.rsvp-form textarea:focus-visible {
+  outline: none;
+  border-bottom-color: var(--bark);
+}
+
+.rsvp-attending {
+  border: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.rsvp-attending legend {
+  padding: 0;
+  font-size: 0.78rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--bark);
+}
+
+.rsvp-radio {
+  flex-direction: row !important;
+  align-items: center;
+  gap: 0.5rem !important;
+  font-size: 1rem;
+}
+
+.rsvp-submit {
+  align-self: center;
+  margin-top: 0.5rem;
+  font-family: var(--body);
+  font-size: 0.95rem;
+  padding: 0.7rem 1.8rem;
+  border-radius: 999px;
+  border: 1px solid var(--forest);
+  background: var(--forest);
+  color: var(--cream);
+  cursor: pointer;
+}
+
+.rsvp-submit:hover,
+.rsvp-submit:focus-visible { background: var(--sage-deep); border-color: var(--sage-deep); }
+
+.rsvp-submit:disabled {
+  opacity: 0.6;
+  cursor: default;
+}
+
+.rsvp-feedback {
+  min-height: 1.2rem;
+  margin: 0.4rem 0 0;
+  text-align: center;
+  font-size: 0.95rem;
+  color: var(--bark);
+}
+
+.rsvp-feedback-success { color: var(--forest); }
+
 @media (max-width: 860px) {
-  .frame::before, .frame::after { display: none; }
+  /* Instead of hiding the ornaments outright, shrink each one to ~20% of
+     its desktop size, still flush against the edge it's anchored to. They
+     stay fully intact (background: center / contain just scales the whole
+     artwork down) instead of being cropped to a random, possibly-blank
+     sliver, and .frame clips anything that still pokes out. */
+  .frame { overflow: hidden; }
+
+  .frame::before,
+  .frame::after { width: 32px; }
+
+  /* These three are height-driven on desktop (a full-height side vine, a
+     half-viewport flower spray) — keep that height as-is so they stay the
+     same proportion of the section, just narrow the width and crop to fill
+     it instead of shrinking the whole image into empty space. */
+  #historia::before,
+  #programa::before,
+  #alojarse::after {
+    width: 72px;
+    background-size: cover;
+  }
+
+  #preguntas::before { width: 32vw; }
+
+  #regalos::after,
+  #alojarse::before { width: 40%; }
+
+  #viaje::before,
+  #viaje::after { width: 20%; }
+
+  /* Despedida's left/right artwork is full-height with no aspect-ratio cap,
+     so on a tall mobile section it stretches to 200px+ a side and overlaps
+     the card. Keep the full height (it still wraps the content top to
+     bottom) but narrow the width and crop with object-fit so it retreats
+     toward the screen edges instead of crowding the center. */
+  .despedida-left,
+  .despedida-right {
+    width: 48px;
+    object-fit: cover;
+  }
 }
 
 @media (max-width: 560px) {
-  .accent { display: none; }
-  .card { padding: 2.2rem 1.25rem; outline-offset: 5px; }
+  .accent-left { left: -57.45%; }
+  .accent-right { display: none; }
+  .card { padding: 2.2rem 1.25rem; }
   .frame { padding: 2.5rem 1.25rem; }
   .hero { padding: 5rem 1.25rem; }
+  .despedida-frame { padding: 4rem 1.5rem; }
+  .despedida-left, .despedida-right { height: 55%; top:13% }
+  .puzzle-card { padding: 2.2rem 1.25rem; }
+  .puzzle-scramble { min-height: 320px; }
   .countdown { gap: 0.8rem; }
   .countdown span { font-size: 2rem; }
   .countdown div { min-width: 3.6rem; }
-  .puzzle-card { padding: 2.2rem 1.5rem; }
-  .puzzle-tile { font-size: 1.05rem; padding: 0.4em 0.85em; }
-  .puzzle-scramble { height: 420px; }
 }
