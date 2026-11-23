@@ -222,34 +222,6 @@
   dialog.showModal();
 })();
 
-const siteHeader = document.querySelector(".site-header");
-const setHeaderHeightVar = () => {
-  if (siteHeader) {
-    document.documentElement.style.setProperty("--header-h", siteHeader.offsetHeight + "px");
-  }
-};
-setHeaderHeightVar();
-window.addEventListener("resize", setHeaderHeightVar);
-window.addEventListener("load", setHeaderHeightVar);
-if (document.fonts && document.fonts.ready) {
-  document.fonts.ready.then(setHeaderHeightVar);
-}
-
-const toggle = document.querySelector(".menu-toggle");
-const menu = document.getElementById("menu");
-
-toggle.addEventListener("click", () => {
-  const open = menu.classList.toggle("open");
-  toggle.setAttribute("aria-expanded", String(open));
-});
-
-menu.querySelectorAll("a").forEach((link) =>
-  link.addEventListener("click", () => {
-    menu.classList.remove("open");
-    toggle.setAttribute("aria-expanded", "false");
-  })
-);
-
 const lightbox = document.querySelector(".lightbox");
 const lightboxImg = lightbox.querySelector("img");
 
@@ -332,4 +304,17 @@ if (rsvpForm) {
         rsvpSubmit.disabled = false;
       });
   });
+}
+
+const rsvpFloat = document.querySelector(".rsvp-float");
+if (rsvpFloat) {
+  const showRsvpFloat = () => rsvpFloat.classList.add("visible");
+  window.addEventListener(
+    "scroll",
+    () => {
+      if (window.scrollY > 80) showRsvpFloat();
+    },
+    { passive: true }
+  );
+  setTimeout(showRsvpFloat, 5000);
 }

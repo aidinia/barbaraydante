@@ -1,5 +1,4 @@
 :root {
-  --header-h: 72px;
   --sage: #a9c58a;
   --sage-deep: #7f9d62;
   --forest: #2f4a2a;
@@ -10,12 +9,12 @@
   --body: "EB Garamond", "Cormorant Garamond", Georgia, serif;
   --script: "Great Vibes", "Cormorant Garamond", cursive;
   --grain: url("data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22320%22 height=%22320%22%3E%3Cfilter id=%22p%22%3E%3CfeTurbulence type=%22fractalNoise%22 baseFrequency=%220.012%22 numOctaves=%223%22 seed=%227%22 stitchTiles=%22stitch%22 result=%22n%22/%3E%3CfeDiffuseLighting in=%22n%22 surfaceScale=%221.4%22 diffuseConstant=%221%22 lighting-color=%22%23fff%22 result=%22l%22%3E%3CfeDistantLight azimuth=%2255%22 elevation=%2250%22/%3E%3C/feDiffuseLighting%3E%3C/filter%3E%3Crect width=%22100%25%22 height=%22100%25%22 filter=%22url(%23p)%22/%3E%3C/svg%3E");
-  --grain2: url("data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22320%22 height=%22320%22%3E%3Cfilter id=%22p2%22%3E%3CfeTurbulence type=%22fractalNoise%22 baseFrequency=%220.012%22 numOctaves=%223%22 seed=%227%22 stitchTiles=%22stitch%22 result=%22n%22/%3E%3CfeDiffuseLighting in=%22n%22 surfaceScale=%221.4%22 diffuseConstant=%221%22 lighting-color=%22%23fff%22 result=%22l%22%3E%3CfeDistantLight azimuth=%2255%22 elevation=%2250%22/%3E%3C/feDiffuseLighting%3E%3CfeComponentTransfer in=%22l%22%3E%3CfeFuncR type=%22gamma%22 amplitude=%221%22 exponent=%220.6%22 offset=%220%22/%3E%3CfeFuncG type=%22gamma%22 amplitude=%221%22 exponent=%220.6%22 offset=%220%22/%3E%3CfeFuncB type=%22gamma%22 amplitude=%221%22 exponent=%220.6%22 offset=%220%22/%3E%3C/feComponentTransfer%3E%3C/filter%3E%3Crect width=%22100%25%22 height=%22100%25%22 filter=%22url(%23p2)%22/%3E%3C/svg%3E");
+  --grain2: url("data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22320%22 height=%22320%22%3E%3Cfilter id=%22p2%22 color-interpolation-filters=%22sRGB%22%3E%3CfeTurbulence type=%22fractalNoise%22 baseFrequency=%220.012%22 numOctaves=%223%22 seed=%227%22 stitchTiles=%22stitch%22 result=%22n%22/%3E%3CfeDiffuseLighting in=%22n%22 surfaceScale=%221.4%22 diffuseConstant=%221%22 lighting-color=%22%23fff%22 result=%22l%22%3E%3CfeDistantLight azimuth=%2255%22 elevation=%2250%22/%3E%3C/feDiffuseLighting%3E%3CfeComponentTransfer in=%22l%22%3E%3CfeFuncR type=%22linear%22 slope=%220.1%22 intercept=%220.9%22/%3E%3CfeFuncG type=%22linear%22 slope=%220.16%22 intercept=%220.84%22/%3E%3CfeFuncB type=%22linear%22 slope=%220.28%22 intercept=%220.72%22/%3E%3C/feComponentTransfer%3E%3C/filter%3E%3Crect width=%22100%25%22 height=%22100%25%22 filter=%22url(%23p2)%22/%3E%3C/svg%3E");
 }
 
 * { box-sizing: border-box; }
 
-html { scroll-behavior: smooth; scroll-padding-top: 4.5rem; }
+html { scroll-behavior: smooth; }
 
 body {
   margin: 0;
@@ -24,10 +23,11 @@ body {
   font-size: 1.15rem;
   color: var(--ink);
   background-color: var(--cream);
-  background-image: var(--grain);
+  background-image: url("img/ornaments/Fondo.jpg");
   background-blend-mode: multiply;
-  background-size: 320px 320px;
-  background-repeat: repeat;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
   line-height: 1.7;
 }
 
@@ -41,97 +41,21 @@ h1, h2 {
   line-height: 1.1;
 }
 
-/* Header */
-.site-header {
-  position: sticky;
-  top: 0;
-  z-index: 10;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 0.9rem 1.25rem;
-  background: rgba(250, 246, 236, 0.94);
-  backdrop-filter: blur(6px);
-  border-bottom: 1px solid rgba(47, 74, 42, 0.12);
-}
-
-.brand {
-  font-family: var(--serif);
-  font-size: 1.4rem;
-  font-style: italic;
-  color: var(--forest);
-  text-decoration: none;
-  letter-spacing: 0.02em;
-}
-
-.menu-toggle {
-  display: none;
-  flex-direction: column;
-  gap: 5px;
-  padding: 0.5rem;
-  background: none;
-  border: 0;
-  cursor: pointer;
-}
-
-.menu-toggle span {
-  width: 22px;
-  height: 1.5px;
-  background: var(--forest);
-}
-
-.site-nav {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.4rem 1.4rem;
-  justify-content: flex-end;
-}
-
-.site-nav a {
-  color: var(--forest);
-  text-decoration: none;
-  font-size: 0.85rem;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  padding: 0.2rem 0;
-  border-bottom: 1px solid transparent;
-}
-
-.site-nav a:hover,
-.site-nav a:focus-visible { border-bottom-color: var(--bark); outline: none; }
-
-@media (max-width: 860px) {
-  .menu-toggle { display: flex; }
-  .site-nav {
-    display: none;
-    position: absolute;
-    top: 100%;
-    left: 0;
-    right: 0;
-    flex-direction: column;
-    gap: 0;
-    padding: 0.5rem 1.25rem 1rem;
-    background: var(--cream);
-    border-bottom: 1px solid rgba(47, 74, 42, 0.12);
-  }
-  .site-nav a { padding: 0.7rem 0; }
-  .site-nav.open { display: flex; }
-}
-
 /* Hero */
 .hero {
   position: relative;
-  min-height: calc(100vh - var(--header-h));
+  min-height: 100vh;
   display: grid;
   place-items: center;
   padding: 6rem 1.25rem;
   text-align: center;
   color: var(--forest);
   background-color: var(--cream);
-  background-image: var(--grain);
+  background-image: url("img/ornaments/Fondo.jpg");
   background-blend-mode: multiply;
-  background-size: 320px 320px;
-  background-repeat: repeat;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
   overflow: hidden;
 }
 
@@ -242,16 +166,17 @@ h1, h2 {
 /* Framed sections */
 .frame {
   position: relative;
-  min-height: calc(100vh - var(--header-h));
+  min-height: 100vh;
   display: flex;
   align-items: flex-start;
   justify-content: center;
   padding: 3.5rem 1.25rem;
   background-color: var(--cream);
-  background-image: var(--grain);
+  background-image: url("img/ornaments/Fondo.jpg");
   background-blend-mode: multiply;
-  background-size: 320px 320px;
-  background-repeat: repeat;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
 }
 
 .frame::before,
@@ -346,6 +271,12 @@ h1, h2 {
   aspect-ratio: 670.5 / 743.25;
 }
 
+
+#viaje .card {
+  background: rgba(251, 233, 205, 0.88);
+  border-radius: 4px;
+}
+
 /* Viaje: a flower-lined path along the bottom instead of a side vine */
 #viaje::before,
 #viaje::after {
@@ -372,11 +303,17 @@ h1, h2 {
 /* Despedida: framed on all four sides by dedicated artwork instead of the vines */
 .despedida-frame {
   position: relative;
-  min-height: calc(100vh - var(--header-h));
+  min-height: 100vh;
   display: flex;
   align-items: center;
   justify-content: center;
   padding: 7rem 3rem;
+  background-color: var(--cream);
+  background-image: url("img/ornaments/Fondo.jpg");
+  background-blend-mode: multiply;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
 }
 
 .despedida-edge {
@@ -578,10 +515,11 @@ details p { margin: 0 0 1.2rem; color: var(--ink); }
   padding: 3rem 1.25rem;
   text-align: center;
   background-color: var(--cream);
-  background-image: var(--grain);
+  background-image: url("img/ornaments/Fondo.jpg");
   background-blend-mode: multiply;
-  background-size: 320px 320px;
-  background-repeat: repeat;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
   color: var(--ink);
   border-top: 1px solid rgba(47, 74, 42, 0.12);
 }
@@ -648,10 +586,11 @@ details p { margin: 0 0 1.2rem; color: var(--ink); }
   padding: 2.6rem 2.2rem;
   text-align: center;
   background-color: var(--cream);
-  background-image: var(--grain);
+  background-image: url("img/ornaments/Fondo.jpg");
   background-blend-mode: multiply;
-  background-size: 320px 320px;
-  background-repeat: repeat;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
   box-shadow: 0 20px 50px rgba(44, 51, 39, 0.35);
 }
 
@@ -926,4 +865,45 @@ body.modal-open { overflow: hidden; }
   .countdown { gap: 0.8rem; }
   .countdown span { font-size: 2rem; }
   .countdown div { min-width: 3.6rem; }
+}
+
+/* Floating RSVP button */
+.rsvp-float {
+  position: fixed;
+  right: 1.25rem;
+  bottom: 1.25rem;
+  z-index: 8;
+  font-family: var(--body);
+  font-size: 0.85rem;
+  letter-spacing: 0.02em;
+  padding: 0.75rem 1.4rem;
+  border-radius: 999px;
+  background: var(--forest);
+  color: var(--cream);
+  text-decoration: none;
+  box-shadow: 0 6px 18px rgba(44, 51, 39, 0.3);
+  opacity: 0;
+  transform: translateY(14px);
+  pointer-events: none;
+  transition: opacity 0.35s ease, transform 0.35s ease, background 0.2s ease;
+}
+
+.rsvp-float.visible {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+}
+
+.rsvp-float:hover,
+.rsvp-float:focus-visible {
+  background: var(--sage-deep);
+  outline: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .rsvp-float { transition: opacity 0.01ms; }
+}
+
+@media (max-width: 560px) {
+  .rsvp-float { right: 1rem; bottom: 1rem; padding: 0.7rem 1.2rem; font-size: 0.8rem; }
 }
