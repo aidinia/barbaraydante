@@ -4,17 +4,20 @@
   --forest: #2f4a2a;
   --cream: #fbe9cd;
   --bark: #a86c44;
-  --ink: #2c3327;
+  --ink: #693b20;
   --serif: "Cormorant Garamond", "EB Garamond", Georgia, serif;
   --body: "EB Garamond", "Cormorant Garamond", Georgia, serif;
   --script: "Great Vibes", "Cormorant Garamond", cursive;
+  --gilda: "Gilda Display", "Cormorant Garamond", Georgia, serif;
+  --h1-color: #90a67e;
+  --h2-color: #c08562;
   --grain: url("data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22320%22 height=%22320%22%3E%3Cfilter id=%22p%22%3E%3CfeTurbulence type=%22fractalNoise%22 baseFrequency=%220.012%22 numOctaves=%223%22 seed=%227%22 stitchTiles=%22stitch%22 result=%22n%22/%3E%3CfeDiffuseLighting in=%22n%22 surfaceScale=%221.4%22 diffuseConstant=%221%22 lighting-color=%22%23fff%22 result=%22l%22%3E%3CfeDistantLight azimuth=%2255%22 elevation=%2250%22/%3E%3C/feDiffuseLighting%3E%3C/filter%3E%3Crect width=%22100%25%22 height=%22100%25%22 filter=%22url(%23p)%22/%3E%3C/svg%3E");
   --grain2: url("data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22320%22 height=%22320%22%3E%3Cfilter id=%22p2%22 color-interpolation-filters=%22sRGB%22%3E%3CfeTurbulence type=%22fractalNoise%22 baseFrequency=%220.012%22 numOctaves=%223%22 seed=%227%22 stitchTiles=%22stitch%22 result=%22n%22/%3E%3CfeDiffuseLighting in=%22n%22 surfaceScale=%221.4%22 diffuseConstant=%221%22 lighting-color=%22%23fff%22 result=%22l%22%3E%3CfeDistantLight azimuth=%2255%22 elevation=%2250%22/%3E%3C/feDiffuseLighting%3E%3CfeComponentTransfer in=%22l%22%3E%3CfeFuncR type=%22linear%22 slope=%220.1%22 intercept=%220.9%22/%3E%3CfeFuncG type=%22linear%22 slope=%220.16%22 intercept=%220.84%22/%3E%3CfeFuncB type=%22linear%22 slope=%220.28%22 intercept=%220.72%22/%3E%3C/feComponentTransfer%3E%3C/filter%3E%3Crect width=%22100%25%22 height=%22100%25%22 filter=%22url(%23p2)%22/%3E%3C/svg%3E");
 }
 
 * { box-sizing: border-box; }
 
-html { scroll-behavior: smooth; }
+html { scroll-behavior: smooth; font-size: 17px; }
 
 body {
   margin: 0;
@@ -34,11 +37,20 @@ body {
 img { max-width: 100%; display: block; }
 
 h1, h2 {
-  font-family: var(--serif);
-  font-weight: 500;
-  color: var(--forest);
   margin: 0;
   line-height: 1.1;
+}
+
+h1 {
+  font-family: var(--script);
+  font-weight: 500;
+  color: var(--h1-color);
+}
+
+h2, h3, h4 {
+  font-family: var(--gilda);
+  font-weight: 500;
+  color: var(--h2-color);
 }
 
 /* Hero */
@@ -72,9 +84,26 @@ h1, h2 {
   opacity: 0.85;
 }
 
+.hero-bottom {
+  position: absolute;
+  z-index: 1;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: auto;
+  pointer-events: none;
+}
+
 .accent-left { left: 0; }
 
 .accent-right { right: 0; }
+
+.hero-mobile {
+  display: none;
+  position: absolute;
+  z-index: 0;
+  pointer-events: none;
+}
 
 .eyebrow {
   margin: 0 0 0.5rem;
@@ -86,10 +115,8 @@ h1, h2 {
 }
 
 .hero h1 {
-  font-family: var(--serif);
   font-size: clamp(2.8rem, 10vw, 7rem);
   font-weight: 500;
-  white-space: nowrap;
 }
 
 .hero .amp {
@@ -272,11 +299,6 @@ h1, h2 {
 }
 
 
-#viaje .card {
-  background: rgba(251, 233, 205, 0.88);
-  border-radius: 4px;
-}
-
 /* Viaje: a flower-lined path along the bottom instead of a side vine */
 #viaje::before,
 #viaje::after {
@@ -358,22 +380,9 @@ h1, h2 {
   .card { max-width: none; width: min(1000px, 90vw); }
 }
 
-.card h2 {
-  font-family: var(--script);
-  font-weight: 400;
-  font-size: clamp(2.2rem, 6vw, 3.2rem);
-  margin-bottom: 1.2rem;
-}
 
-.card h2::before,
-.card h2::after {
-  content: "";
-  display: inline-block;
-  width: 0.85em;
-  height: 0.85em;
-  vertical-align: middle;
-  background: url("img/ornaments2/fairy-a.png") center / contain no-repeat;
-}
+
+
 
 .card h2::before { margin-right: 0.15em; }
 .card h2::after { margin-left: 0.15em; }
@@ -401,7 +410,7 @@ h1, h2 {
 .card p {
   margin: 0 auto;
   max-width: 56ch;
-  font-size: 1.1rem;
+  font-size: 1.4rem;
 }
 
 .card p:first-of-type::first-letter {
@@ -603,11 +612,9 @@ details p { margin: 0 0 1.2rem; color: var(--ink); }
 }
 
 .puzzle-title {
-  font-family: var(--script);
   font-weight: 400;
   font-size: clamp(2rem, 6vw, 2.8rem);
   margin: 0 0 0.8rem;
-  color: var(--forest);
 }
 
 .puzzle-hint {
@@ -853,8 +860,49 @@ body.modal-open { overflow: hidden; }
 }
 
 @media (max-width: 560px) {
-  .accent-left { left: -57.45%; }
-  .accent-right { display: none; }
+  .accent { display: none; }
+  .hero-bottom { display: none; }
+
+  .hero-mobile { display: block; }
+
+  .hero-mobile-top {
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: auto;
+  }
+
+  .hero-mobile-right {
+    top: 18%;
+    right: 0;
+    width: auto;
+    height: 42vh;
+    max-width: none;
+  }
+
+  .hero-mobile-bottom {
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: auto;
+  }
+
+  .hero-mobile-bottom-left {
+    bottom: 0;
+    left: 0;
+    width: 42%;
+    height: auto;
+  }
+
+  .hero-mobile-bottom-right {
+    bottom: 0;
+    right: 0;
+    width: 46%;
+    height: auto;
+  }
+
+  .hero h1 { width: 40%; margin: 0 auto; }
+
   .card { padding: 2.2rem 1.25rem; }
   .frame { padding: 2.5rem 1.25rem; }
   .hero { padding: 5rem 1.25rem; }
